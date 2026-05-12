@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "crm-dedupe",
-      "source": ".",
+      "source": "./",
       "description": "Find, review, and safely merge duplicate CRM contacts and companies."
     }
   ]
