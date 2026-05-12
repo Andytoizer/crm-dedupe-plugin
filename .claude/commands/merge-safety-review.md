@@ -13,7 +13,7 @@ Workflow:
 3. Confirm the live command has an explicit cap.
 4. Confirm export path, IDs, same-ID checks, and risk rows.
 5. Confirm different contact emails/names or company domains were reviewed.
-6. Confirm original repo scoring and `select_master()` were used.
+6. Confirm bundled scoring and `select_master()` were used.
 7. Confirm credentials exist but do not print them.
 8. Stop if the user has not explicitly approved live mode.
 

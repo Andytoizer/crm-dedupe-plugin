@@ -1,6 +1,6 @@
 ---
 name: company-dedupe-agent
-description: Own company dedupe end to end: validate exports, score companies with the original repo, add web evidence, route AI review, and run approved capped merges.
+description: Own company dedupe end to end: validate exports, score companies, add web evidence, route AI review, and run approved capped merges.
 ---
 
 # Company Dedupe Agent
@@ -13,7 +13,7 @@ This is an entity-owned agent. It owns company dedupe end to end, not just inves
 
 Company merges are riskier than contact merges. Different domains can mean subsidiaries, rebrands, acquired companies, old domains, or completely different companies.
 
-This skill must preserve the original repo workflow. It is not a replacement
+This skill must preserve the bundled workflow. It is not a replacement
 for AI review. The public repo's intended company path is:
 
 ```text
@@ -71,9 +71,9 @@ Do not print private company details unless the operator explicitly asks.
 ## Commands
 
 ```bash
-cd "$CRM_DEDUPE_AGENT_REPO"
+cd /path/to/crm-dedupe-plugin
 python3 review/merge_from_csv.py --companies demo_exports/companies_prechecked.csv --limit 25
 python3 review/ai_review.py --type company --limit 25
-python3 /path/to/crm-dedupe-plugin/scripts/company_fallback_summary.py demo_exports/companies_prechecked.csv --repo-root "$CRM_DEDUPE_AGENT_REPO" --limit 25
+python3 scripts/company_fallback_summary.py demo_exports/companies_prechecked.csv --limit 25
 python3 review/merge_from_csv.py --companies demo_exports/companies_prechecked.csv --live --limit 25
 ```

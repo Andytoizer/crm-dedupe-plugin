@@ -1,6 +1,6 @@
 # Original Scoring Contract
 
-The plugin agents must preserve the public CRM Dedupe Agent scoring and routing contract from `https://github.com/Andytoizer/crm-dedupe-agent`.
+The plugin agents must preserve the CRM Dedupe scoring and routing contract bundled in this repo.
 
 ## Thresholds
 
@@ -38,7 +38,7 @@ Different domains do not automatically mean different companies. They move the p
 
 ## Review Routing
 
-Use the original repo queue and review flow:
+Use the bundled queue and review flow:
 
 ```text
 score pair -> AUTO_MERGE / REVIEW / DISCARD

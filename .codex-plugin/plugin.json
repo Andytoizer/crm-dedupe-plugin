@@ -1,7 +1,7 @@
 {
   "name": "crm-dedupe",
   "version": "0.1.0",
-  "description": "Orchestrate a CRM dedupe workflow with focused Codex skills for safe backfills, contact and company dedupe, merge review, and daily hygiene.",
+  "description": "Standalone CRM dedupe plugin with focused Codex skills for safe backfills, contact and company dedupe, merge review, and daily hygiene.",
   "author": {
     "name": "Andy Toizer",
     "url": "https://agentoperator.substack.com/"
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "CRM Dedupe Orchestrator",
     "shortDescription": "Run guarded CRM dedupe backfills and daily hygiene.",
-    "longDescription": "A pluginized version of the CRM Dedupe Agent workflow. Instead of one large repo context, it breaks dedupe operations into focused skills: orchestrating the workflow, validating HubSpot exports, running contact and company dedupe agents, reviewing merge safety, and scheduling daily high-confidence cleanup.",
+    "longDescription": "A standalone CRM dedupe plugin with bundled scoring, blocking, review, and HubSpot integration code. It breaks dedupe operations into focused skills: orchestrating the workflow, validating HubSpot exports, running contact and company dedupe agents, reviewing merge safety, and scheduling daily high-confidence cleanup.",
     "developerName": "Andy Toizer",
     "category": "Productivity",
     "capabilities": [

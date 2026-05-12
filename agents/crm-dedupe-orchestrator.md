@@ -10,7 +10,7 @@ Route work to:
 - `merge-safety-review` before live writes.
 - `daily-crm-hygiene` for scheduled cleanup.
 
-Preserve the original repo contract from `https://github.com/Andytoizer/crm-dedupe-agent`:
+Preserve the bundled scoring and review contract:
 
 - scoring is owned by `pipeline/scorer.py`
 - review decisions are owned by `review/ai_review.py`

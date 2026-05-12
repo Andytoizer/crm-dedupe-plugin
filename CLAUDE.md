@@ -1,19 +1,22 @@
 # CRM Dedupe Plugin — Claude Code Guide
 
-This repository packages a Codex plugin, but it is also designed to work cleanly in Claude Code.
+This repository packages a standalone CRM dedupe plugin, and it is designed to work cleanly in Claude Code.
 
-Claude Code should treat this repo as an orchestration layer around a separate checkout of the original CRM Dedupe Agent:
+The repo includes both the plugin/command layer and the dedupe engine files:
 
-```bash
-git clone https://github.com/Andytoizer/crm-dedupe-agent ../crm-dedupe-agent
-export CRM_DEDUPE_AGENT_REPO=/path/to/crm-dedupe-agent
-```
+- `agents/`
+- `config/`
+- `db/`
+- `pipeline/`
+- `review/`
+- `scheduler/`
+- `tests/`
 
 ## How To Work Here
 
 - Read this file first, then the relevant file under `skills/*/SKILL.md`.
 - Use the `.claude/commands/` slash commands when available.
-- Run CRM Dedupe Agent commands from `$CRM_DEDUPE_AGENT_REPO`.
+- Run CRM Dedupe commands from this repo root unless the user explicitly points to another engine with `CRM_DEDUPE_AGENT_REPO`.
 - Keep this plugin repo free of secrets, CRM exports, databases, customer records, and private GTM notes.
 - Preserve the original CRM Dedupe Agent scoring contract. The plugin is an orchestration layer, not a replacement scoring engine.
 - Keep commands configurable with `CRM_DEDUPE_AGENT_REPO` or `--repo-root`; do not hard-code local machine paths.
@@ -39,8 +42,9 @@ These commands mirror the Codex skills in `skills/`.
 Run this before publishing changes:
 
 ```bash
-python3 scripts/verify_original_scoring_contract.py --repo-root "$CRM_DEDUPE_AGENT_REPO"
+python3 scripts/verify_original_scoring_contract.py
 python3 -m py_compile scripts/company_fallback_summary.py scripts/verify_original_scoring_contract.py
+python3 -m pytest tests/ -q
 ```
 
 Expected scoring verifier output:

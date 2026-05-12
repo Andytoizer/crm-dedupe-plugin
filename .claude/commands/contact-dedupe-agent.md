@@ -9,7 +9,7 @@ $ARGUMENTS
 Workflow:
 
 1. Read `skills/contact-dedupe-agent/SKILL.md`.
-2. Work from `$CRM_DEDUPE_AGENT_REPO`.
+2. Work from this repo root.
 3. Confirm the contact export path or use `demo_exports/contacts_prechecked.csv` if the user staged it there.
 4. Validate expected columns without printing private contact rows.
 5. Run dry-run commands before any live command.

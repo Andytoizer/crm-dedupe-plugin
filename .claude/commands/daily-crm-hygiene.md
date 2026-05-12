@@ -9,7 +9,7 @@ $ARGUMENTS
 Workflow:
 
 1. Read `skills/daily-crm-hygiene/SKILL.md`.
-2. Work from `$CRM_DEDUPE_AGENT_REPO`.
+2. Work from this repo root.
 3. Confirm the backlog cleanup path is understood before scheduling ongoing cleanup.
 4. Preserve the original incremental agent, review queue, AI review, Slack digest, and scoring thresholds.
 5. Auto-merge only high-confidence deterministic matches.

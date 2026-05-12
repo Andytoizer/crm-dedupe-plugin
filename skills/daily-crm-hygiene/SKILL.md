@@ -18,7 +18,7 @@ Default cadence: daily.
 The daily agent should:
 
 - Fetch records modified since the last checkpoint.
-- Auto-merge only high-confidence matches according to the original repo thresholds.
+- Auto-merge only high-confidence matches according to the bundled thresholds.
 - Queue fuzzy or uncertain matches for AI review.
 - Run AI review for ambiguous cases.
 - Send a Slack digest of review items.
@@ -33,7 +33,7 @@ The daily agent should:
 
 ## Scoring Contract
 
-Daily hygiene must use the same scoring as the original repo:
+Daily hygiene must use the bundled scoring contract:
 
 - contacts: email exact `1.0`, Gmail dots `0.97`, LinkedIn `0.98`, phone `0.92`, fuzzy capped at `0.89`
 - companies: domain exact `1.0`, LinkedIn company page `0.98`, fuzzy name capped at `0.89`

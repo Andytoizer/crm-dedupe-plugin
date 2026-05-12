@@ -1,32 +1,83 @@
 # CRM Dedupe Plugin
 
-A public-ready Codex and Claude Code package for operating the [CRM Dedupe Agent](https://github.com/Andytoizer/crm-dedupe-agent) as focused, reusable agent workflows.
+A standalone Codex and Claude Code plugin for finding, reviewing, and safely merging duplicate CRM contacts and companies.
 
 Built by [Andy Toizer](https://www.linkedin.com/in/andy-toizer) — I write [Agent Operator](https://agentoperator.substack.com/), a newsletter about building real systems with coding agents from an operator's seat.
 
-The original dedupe system was built from real RevOps work at [Freckle.io](https://freckle.io/). This repo packages the reusable orchestration layer without shipping private CRM exports, customer records, secrets, or company-specific GTM context.
+This started from real RevOps work at [Freckle.io](https://freckle.io/) and is packaged so other people can use, fork, and adapt it without private CRM exports, customer records, secrets, or company-specific GTM context.
 
-The original CRM Dedupe Agent owns the CRM integration, deterministic scoring, merge execution, review queue, web enrichment, AI review, Slack digest, and scheduling code. This plugin is the orchestration layer around that repo: it gives Codex and Claude Code smaller, safer roles for running contact dedupe, company dedupe, merge safety review, and daily hygiene.
+## What It Does
 
-## What This Package Is
+- Finds duplicate contacts and companies.
+- Auto-merges high-confidence matches.
+- Routes fuzzy matches through AI review.
+- Picks the surviving master record using engagement-weighted scoring.
+- Writes an audit log for merge decisions.
+- Sends or prepares review digests for cases that still need human eyes.
+- Gives Codex and Claude Code focused agents for contact dedupe, company dedupe, merge safety, and daily hygiene.
 
-This repo is a packaged agent workflow. It is meant to be cloned, inspected, adapted, and used as a public starting point.
+## Install The Plugin
 
-It includes:
+In Codex, install this plugin from the Git URL:
 
-- Codex plugin metadata in `.codex-plugin/plugin.json`
-- Codex skills in `skills/`
-- Claude Code project commands in `.claude/commands/`
-- Public-safe helper scripts in `scripts/`
-- Packaging docs, `CLAUDE.md`, `.env.example`, and `.gitignore`
+```text
+https://github.com/Andytoizer/crm-dedupe-plugin
+```
 
-It does not include:
+Then try:
 
-- CRM exports
-- live customer data
-- private GTM notes
-- `.env` files or API keys
-- databases, logs, or run artifacts
+```text
+Use $crm-dedupe-orchestrator to clean up my HubSpot duplicate backlog safely.
+```
+
+## Use With Claude Code
+
+Clone the repo and open it in Claude Code:
+
+```bash
+git clone https://github.com/Andytoizer/crm-dedupe-plugin
+cd crm-dedupe-plugin
+```
+
+Claude Code will read `CLAUDE.md`. Project slash commands are available in `.claude/commands/`:
+
+- `/crm-dedupe-orchestrator`
+- `/contact-dedupe-agent`
+- `/company-dedupe-agent`
+- `/hubspot-dedupe-backfill`
+- `/merge-safety-review`
+- `/daily-crm-hygiene`
+- `/verify-scoring-contract`
+
+## Quick Start
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+```
+
+Fill in `.env` with your CRM and AI credentials.
+
+Run the safety checks:
+
+```bash
+python3 scripts/verify_original_scoring_contract.py
+python3 -m pytest tests/ -q
+```
+
+Run a dry-run first:
+
+```bash
+python3 agents/bulk_dedup_agent.py --limit 500
+```
+
+Start small when going live:
+
+```bash
+python3 agents/bulk_dedup_agent.py --live --max-merges 10
+```
 
 ## Skills
 
@@ -40,20 +91,24 @@ It does not include:
 ## Repository Layout
 
 ```text
-.claude/commands/
-.codex-plugin/plugin.json
-skills/
-agents/
-references/
-scripts/
-assets/
+.claude/commands/         Claude Code slash commands
+.codex-plugin/            Codex plugin manifest
+skills/                   Codex skill instructions
+agents/                   bulk and incremental dedupe agents
+config/                   environment and field settings
+db/                       SQLite models and session setup
+pipeline/                 blocking, scoring, fetching, merging, web enrichment
+review/                   AI review, queue actions, Slack digest, CSV merge
+scheduler/                schedule registration helper
+tests/                    scoring and blocking tests
+references/               workflow and scoring contract notes
+scripts/                  packaging/helper checks
+assets/                   plugin icon and logo
 ```
 
 ## Universal vs Integration-Specific
 
-This plugin intentionally keeps the original CRM Dedupe Agent's separation between universal logic and integration-specific behavior.
-
-Universal concepts to preserve:
+Universal logic to preserve:
 
 - scoring thresholds and fuzzy caps
 - contact and company scoring order
@@ -62,88 +117,28 @@ Universal concepts to preserve:
 - `YES` / `NO` / `UNSURE` review outcomes
 - dry-run-first merge safety
 
-Integration-specific pieces live in the original CRM Dedupe Agent repo:
+HubSpot-specific pieces to adapt for another CRM:
 
-- CRM fetch logic
-- CRM merge API calls
-- CRM export CSV parsing
-- CRM field mapping
-- notification channel setup
-- credentials and local runtime configuration
+- `pipeline/fetcher.py`
+- `pipeline/merger.py`
+- `config/settings.py`
+- `review/merge_from_csv.py`
+- `review/preview_merges.py`
 
-If you adapt this for a different CRM, change the integration layer in the original CRM Dedupe Agent repo. Do not rewrite this plugin's scoring guidance into a second source of truth.
+The integration files are marked with headers explaining what to change and what to preserve.
 
-## Requirements
-
-This plugin expects the CRM Dedupe Agent repo to be available locally:
-
-```bash
-git clone https://github.com/Andytoizer/crm-dedupe-agent ../crm-dedupe-agent
-```
-
-Set the repo path when running helper scripts:
-
-```bash
-export CRM_DEDUPE_AGENT_REPO=/path/to/crm-dedupe-agent
-```
-
-The CRM Dedupe Agent repo itself is responsible for CRM credentials such as `HUBSPOT_ACCESS_TOKEN`, `ANTHROPIC_API_KEY`, and Slack settings. Do not store secrets in this plugin repo.
-
-## Install As A Local Codex Plugin
-
-Add this repo to a Codex marketplace file with a local source path:
-
-```json
-{
-  "name": "crm-dedupe-plugin",
-  "source": {
-    "source": "local",
-    "path": "./crm-dedupe-plugin"
-  },
-  "policy": {
-    "installation": "AVAILABLE",
-    "authentication": "ON_USE"
-  },
-  "category": "Productivity"
-}
-```
-
-## Use With Claude Code
-
-This repo includes a `CLAUDE.md` and project slash commands in `.claude/commands/`, so it can also be opened directly in Claude Code.
-
-After cloning this repo and the original CRM Dedupe Agent repo, set:
-
-```bash
-export CRM_DEDUPE_AGENT_REPO=/path/to/crm-dedupe-agent
-```
-
-Then use the project commands:
-
-- `/crm-dedupe-orchestrator`
-- `/contact-dedupe-agent`
-- `/company-dedupe-agent`
-- `/hubspot-dedupe-backfill`
-- `/merge-safety-review`
-- `/daily-crm-hygiene`
-- `/verify-scoring-contract`
-
-The slash commands mirror the Codex skills and keep Claude Code pointed at the original repo for scoring, AI review, master selection, and merge execution.
-
-## Verify The Scoring Contract
-
-The plugin must not invent replacement dedupe scoring. It preserves the original repo behavior:
+## Scoring Contract
 
 - `AUTO_MERGE_THRESHOLD = 0.95`
 - `REVIEW_THRESHOLD = 0.70`
 - exact contact email/domain signals can auto-merge
 - fuzzy matches are capped below auto-merge and route to review
-- `YES` / `NO` / `UNSURE` review outcomes come from the original review path
+- `YES` / `NO` / `UNSURE` review outcomes come from the review path
 
-Run:
+Verify it:
 
 ```bash
-python3 scripts/verify_original_scoring_contract.py --repo-root "$CRM_DEDUPE_AGENT_REPO"
+python3 scripts/verify_original_scoring_contract.py
 ```
 
 Expected output:
@@ -157,7 +152,7 @@ OK: original scoring contract preserved
 - Dry-run before live mode.
 - Use explicit live caps.
 - Never print secrets or raw private CRM rows.
-- Keep original repo scoring, master selection, and merge execution intact.
+- Keep scoring, master selection, and merge execution intact.
 - Use `$merge-safety-review` before any live CRM write.
 
 ## Public Packaging Notes
@@ -179,6 +174,6 @@ MIT — use it, fork it, improve it. If you build something cool, let me know.
 
 ## Links
 
-- [Original CRM Dedupe Agent](https://github.com/Andytoizer/crm-dedupe-agent)
 - [Andy Toizer on LinkedIn](https://www.linkedin.com/in/andy-toizer)
 - [Agent Operator](https://agentoperator.substack.com/)
+- [Freckle.io](https://freckle.io/)

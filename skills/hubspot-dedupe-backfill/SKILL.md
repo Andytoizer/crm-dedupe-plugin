@@ -27,14 +27,14 @@ Use this when the operator has exported duplicate contacts or companies from Hub
    - Companies: `ID_1`, `ID_2`, `NAME_1`, `NAME_2`, `DOMAIN_1`, `DOMAIN_2`
 6. Run dry-runs only.
 7. Summarize row counts, parse errors, missing IDs, same-ID rows, and obvious risk signals.
-8. Confirm the summary used the original repo scoring, master selection, and merge execution path.
+8. Confirm the summary used bundled scoring, master selection, and merge execution path.
 
 ## Commands
 
 Use the repo's existing scripts rather than duplicating logic:
 
 ```bash
-cd "$CRM_DEDUPE_AGENT_REPO"
+cd /path/to/crm-dedupe-plugin
 python3 review/merge_from_csv.py --contacts demo_exports/contacts_prechecked.csv --limit 25
 python3 review/merge_from_csv.py --companies demo_exports/companies_prechecked.csv --limit 25
 ```

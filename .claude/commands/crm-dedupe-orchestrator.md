@@ -9,7 +9,7 @@ $ARGUMENTS
 Workflow:
 
 1. Read `skills/crm-dedupe-orchestrator/SKILL.md`.
-2. Confirm or infer `CRM_DEDUPE_AGENT_REPO`; if missing, ask for the path to a local checkout of `https://github.com/Andytoizer/crm-dedupe-agent`.
+2. Work from this repo root unless the user explicitly provides another path.
 3. Identify whether the user is asking about contacts, companies, both, backfill exports, safety review, or daily hygiene.
 4. Route contact work through `skills/contact-dedupe-agent/SKILL.md`.
 5. Route company work through `skills/company-dedupe-agent/SKILL.md`.

@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 def _default_repo_root() -> Path:
-    return Path(os.getenv("CRM_DEDUPE_AGENT_REPO", Path.cwd()))
+    return Path(os.getenv("CRM_DEDUPE_AGENT_REPO", Path(__file__).resolve().parent.parent))
 
 
 def main() -> int:

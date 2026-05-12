@@ -9,7 +9,7 @@ $ARGUMENTS
 Workflow:
 
 1. Read `skills/hubspot-dedupe-backfill/SKILL.md`.
-2. Work from `$CRM_DEDUPE_AGENT_REPO`.
+2. Work from this repo root.
 3. Locate the exported contact and/or company CSV files.
 4. Count rows and validate expected columns.
 5. Do not print raw private CRM rows.

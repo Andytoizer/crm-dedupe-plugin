@@ -30,7 +30,7 @@ The plugin splits the work by orchestration decision:
 - Better prompts for non-engineer operators.
 - Easier handoffs between "inspect", "approve", and "automate" phases.
 - Safer live operations because each skill has a narrow blast radius.
-- Preservation of the original repo contract: high-confidence matches can be merged, clear non-duplicates can be suppressed, and only genuinely uncertain cases need human eyes.
+- Preservation of the bundled scoring contract: high-confidence matches can be merged, clear non-duplicates can be suppressed, and only genuinely uncertain cases need human eyes.
 
 ## Demo Principle
 

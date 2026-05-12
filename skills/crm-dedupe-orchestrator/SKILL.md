@@ -9,14 +9,14 @@ Use this as the top-level orchestrator. The human can describe the CRM cleanup g
 
 ## Required First Moves
 
-1. Identify the CRM Dedupe Agent repo path. Prefer `$CRM_DEDUPE_AGENT_REPO` when set; otherwise ask for or infer a local checkout of `https://github.com/Andytoizer/crm-dedupe-agent`.
+1. Work from this repo root unless the user explicitly provides another path.
 2. Locate the duplicate exports, usually under `demo_exports/`.
 3. Never run live merges until a dry-run summary has been inspected.
 4. Use `$merge-safety-review` before any live write.
 5. Use `$contact-dedupe-agent` for contact dedupe end to end.
 6. Use `$company-dedupe-agent` for company dedupe end to end, especially when domains differ, but do not let it replace the repo's AI review pipeline.
 7. Use `$daily-crm-hygiene` only after the backfill workflow is understood.
-8. Preserve the original repo scoring contract in `references/original-scoring-contract.md`.
+8. Preserve the scoring contract in `references/original-scoring-contract.md`.
 
 ## Routing
 
@@ -46,9 +46,9 @@ The default workflow is:
 - Do not expose tokens, `.env`, raw sensitive CRM rows, or private customer data.
 - Contacts can be live-merged after dry-run and review.
 - Companies require extra caution when domains differ, but different domains alone are not proof of different companies.
-- Do not invent plugin-local scoring. Use `pipeline.scorer.score_contacts()`, `pipeline.scorer.score_companies()`, and `pipeline.scorer.select_master()` from the CRM Dedupe Agent repo.
+- Do not invent alternate scoring. Use `pipeline.scorer.score_contacts()`, `pipeline.scorer.score_companies()`, and `pipeline.scorer.select_master()`.
 - Keep thresholds unchanged: `AUTO_MERGE_THRESHOLD = 0.95`, `REVIEW_THRESHOLD = 0.70`, and fuzzy scores capped at `0.89`.
-- Company decisions should preserve the original repo contract:
+- Company decisions should preserve the bundled review contract:
   - `YES` -> approved merge candidate.
   - `NO` -> reject/suppress as a known non-duplicate.
   - `UNSURE` -> queue for human review.
