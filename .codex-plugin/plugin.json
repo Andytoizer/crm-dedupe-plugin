@@ -1,7 +1,7 @@
 {
   "name": "crm-dedupe",
-  "version": "0.1.1",
-  "description": "Standalone CRM dedupe plugin with focused Codex skills for safe backfills, contact and company dedupe, merge review, and daily hygiene.",
+  "version": "0.1.2",
+  "description": "Standalone CRM dedupe plugin with focused skills for safe backfills, contact and company dedupe, merge review, and daily hygiene.",
   "author": {
     "name": "Andy Toizer",
     "url": "https://agentoperator.substack.com/"

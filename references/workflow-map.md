@@ -4,7 +4,7 @@
 
 This standalone repo contains the engine pieces:
 
-- `review/merge_from_csv.py`: one-off HubSpot duplicate export backfill.
+- `review/merge_from_csv.py`: one-off HubSpot duplicate export backfill. It treats HubSpot rows as candidate pairs, then runs scoring plus AI/web review before classifying merge/reject/human-review outcomes.
 - `pipeline/scorer.py`: deterministic contact and company scoring, including thresholds, fuzzy caps, and master record selection.
 - `pipeline/blocker.py`: candidate pair generation.
 - `pipeline/web_enricher.py`: company domain fallback research.
@@ -56,6 +56,8 @@ AI review YES -> merge
 AI review NO -> suppress pair
 AI review UNSURE -> Slack/manual review
 ```
+
+For CSV backfills, that whole path happens inside `review/merge_from_csv.py` by default. `review/ai_review.py` is still available for existing queue items, but it is not a required second step after a normal CSV dry-run.
 
 The company dedupe agent can add web evidence and make the routing visible, but it should not final-route every `DIFFERENT_MEDIUM`, `UNKNOWN_LOW`, or `SAME_LOW` web bucket to human review before Claude has a chance to reason over the evidence.
 

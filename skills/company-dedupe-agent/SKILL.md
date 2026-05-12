@@ -35,14 +35,14 @@ Only `UNSURE` is true human review. `NO` is an agent decision to reject or suppr
 1. Confirm the company CSV exists.
 2. `cd ${CLAUDE_PLUGIN_ROOT}` before running commands.
 3. Validate expected company columns and count rows without printing private row data.
-4. Dry-run the capped batch to verify the export is parseable.
+4. Run the capped dry-run through `review/merge_from_csv.py`; this must execute the full path, not just verify parseability.
 5. Scan risk signals:
    - different populated domains
    - different names
    - missing domains
    - same HubSpot IDs
-6. Score company pairs with `pipeline.scorer.score_companies()`. Domain exact is `1.0`, LinkedIn company page exact is `0.98`, fuzzy company name is capped at `0.89`.
-7. For risky pairs, use `pipeline.web_enricher.check_same_company()` as evidence, then route through the repo's AI review logic when the web result is not high-confidence.
+6. Ensure the CSV path scores company pairs with `pipeline.scorer.score_companies()`. Domain exact is `1.0`, LinkedIn company page exact is `0.98`, fuzzy company name is capped at `0.89`.
+7. Ensure scorer `REVIEW` pairs run through the repo's AI review logic immediately: fast CRM rules, `pipeline.web_enricher.check_same_company()`, then Claude reasoning when web evidence is not high-confidence.
 8. Separate results into:
    - `YES`: merge candidate after operator-approved live scope.
    - `NO`: reject/suppress as known non-duplicate.
@@ -50,6 +50,7 @@ Only `UNSURE` is true human review. `NO` is an agent decision to reject or suppr
 9. Invoke the `merge-safety-review` skill before live mode.
 10. Display the web-evidence bucket too (`SAME_HIGH`, `DIFFERENT_HIGH`, `DIFFERENT_MEDIUM`, `UNKNOWN_LOW`, etc.), but do not treat every medium/low/unknown web bucket as final manual intervention.
 11. Never live-merge the whole company batch just because HubSpot exported it.
+12. Never stop after the first dry-run/import summary if `REVIEW` rows exist; the AI/web review step is part of the default dry-run.
 
 ## Web Evidence Routing
 
@@ -77,9 +78,8 @@ Do not print private company details unless the operator explicitly asks.
 ```bash
 cd "${CLAUDE_PLUGIN_ROOT}"
 python3 review/merge_from_csv.py --companies <path-to-csv> --limit 25
-python3 review/ai_review.py --type company --limit 25
 python3 scripts/company_fallback_summary.py <path-to-csv> --limit 25
-python3 review/merge_from_csv.py --companies <path-to-csv> --live --limit 25
+python3 review/merge_from_csv.py --companies <path-to-csv> --live --limit 25 --max-merges 25
 ```
 
 Substitute `<path-to-csv>` with the user's actual file path.

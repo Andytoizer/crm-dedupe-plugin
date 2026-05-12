@@ -31,9 +31,9 @@ Acknowledge the request in one sentence. Then act. Never go silent.
 1. Confirm the contact CSV exists at a known path.
 2. `cd ${CLAUDE_PLUGIN_ROOT}` before running any commands.
 3. Validate expected contact columns and count rows without printing private row data.
-4. Score contacts with the bundled scorer.
-5. Run dry-run with the cap.
-6. Summarize proposed merges, review candidates, skipped rows, and errors.
+4. Run `review/merge_from_csv.py` with the cap. This command must score contacts first and then send scorer `REVIEW` rows through the bundled AI review path in the same run.
+5. Summarize scorer `AUTO_MERGE`, `AI YES`, `AI NO`, `AI UNSURE`, `DISCARD`, skipped rows, and errors.
+6. Treat only `AI UNSURE` as true human review.
 7. Scan first capped rows for:
    - missing IDs
    - same ID on both sides
@@ -50,7 +50,7 @@ Acknowledge the request in one sentence. Then act. Never go silent.
 - Never remove the cap unless the user explicitly asks after review.
 - If different names appear, stop and ask before live mode.
 - If different populated emails appear, flag row numbers and recommend manual review.
-- Use `select_master()` through `review/merge_from_csv.py`; never choose master by CSV order.
+- Use `select_master()` through `review/merge_from_csv.py`; never choose master by CSV order and never trust HubSpot's duplicate export as an automatic merge verdict.
 - Contact scoring must match the scoring contract: email exact `1.0`, Gmail dot-insensitive `0.97`, LinkedIn `0.98`, phone `0.92`, fuzzy name+company capped at `0.89`.
 - `AUTO_MERGE` contact pairs are candidates for capped merge after safety review.
 - `REVIEW` contact pairs go through the bundled AI review path, not an ad hoc judgment.
@@ -60,8 +60,7 @@ Acknowledge the request in one sentence. Then act. Never go silent.
 ```bash
 cd "${CLAUDE_PLUGIN_ROOT}"
 python3 review/merge_from_csv.py --contacts <path-to-csv> --limit 25
-python3 review/ai_review.py --type contact --limit 25
-python3 review/merge_from_csv.py --contacts <path-to-csv> --live --limit 25
+python3 review/merge_from_csv.py --contacts <path-to-csv> --live --limit 25 --max-merges 25
 ```
 
 Substitute `<path-to-csv>` with the user's actual file path (or the default if staged under `demo_exports/`).

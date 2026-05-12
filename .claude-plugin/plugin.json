@@ -1,6 +1,6 @@
 {
   "name": "crm-dedupe",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Find, review, and safely merge duplicate CRM contacts and companies. Orchestrator routes contact, company, backfill, merge safety, and daily hygiene workflows. Dry-run by default; live merges require explicit caps.",
   "author": {
     "name": "Andy Toizer",

@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker
 from .models import Base
 from config.settings import DB_PATH
@@ -13,7 +14,13 @@ def get_engine(db_path: str = None):
 def init_db(db_path: str = None):
     """Create all tables if they don't exist."""
     engine = get_engine(db_path)
-    Base.metadata.create_all(engine)
+    try:
+        Base.metadata.create_all(engine)
+    except OperationalError as exc:
+        # Multiple CLI dry-runs can start at once (for example contacts and
+        # companies). SQLite can race between checkfirst and CREATE TABLE.
+        if "already exists" not in str(exc).lower():
+            raise
     return engine
 
 

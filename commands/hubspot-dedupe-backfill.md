@@ -19,5 +19,6 @@ Workflow guidance (the skill will refine this):
 2. Locate the exported contact and/or company CSV files. Common paths: `~/Downloads/`, the user's project dir, or `${CLAUDE_PLUGIN_ROOT}/demo_exports/`.
 3. Count rows and validate expected columns.
 4. Never print raw private CRM rows.
-5. Run dry-runs only unless the user explicitly asks for live mode and the `merge-safety-review` skill passes.
-6. Summarize row counts, parse errors, missing IDs, same-ID rows, and risk signals.
+5. Run full-pipeline dry-runs only unless the user explicitly asks for live mode and the `merge-safety-review` skill passes.
+6. Confirm `review/merge_from_csv.py` scored each pair and routed `REVIEW` rows through AI/web review in the same command.
+7. Summarize row counts, parse errors, missing IDs, same-ID rows, scorer decisions, AI decisions, and true human-review residue.

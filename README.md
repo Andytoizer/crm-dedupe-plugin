@@ -132,7 +132,7 @@ HubSpot-specific pieces to adapt for another CRM:
 - `pipeline/fetcher.py`
 - `pipeline/merger.py`
 - `config/settings.py`
-- `review/merge_from_csv.py`
+- `review/merge_from_csv.py` (HubSpot CSV parsing, but it must preserve score -> AI/web review routing)
 - `review/preview_merges.py`
 
 The integration files are marked with headers explaining what to change and what to preserve.
@@ -144,6 +144,7 @@ The integration files are marked with headers explaining what to change and what
 - exact contact email/domain signals can auto-merge
 - fuzzy matches are capped below auto-merge and route to review
 - `YES` / `NO` / `UNSURE` review outcomes come from the review path
+- HubSpot duplicate exports are candidate pairs, not proof; CSV backfills must not stamp every row as `AUTO_MERGE`
 
 Verify it:
 

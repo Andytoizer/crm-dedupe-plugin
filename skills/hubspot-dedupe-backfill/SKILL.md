@@ -35,11 +35,15 @@ Acknowledge the request in one sentence. Then act. Never go silent.
    - `companies_prechecked.csv`
 4. Count rows without printing sensitive row data.
 5. Validate expected columns:
-   - Contacts: `ID_1`, `ID_2`, `FIRSTNAME_1`, `FIRSTNAME_2`, `EMAIL_1`, `EMAIL_2`
-   - Companies: `ID_1`, `ID_2`, `NAME_1`, `NAME_2`, `DOMAIN_1`, `DOMAIN_2`
-6. Run dry-runs only.
-7. Summarize row counts, parse errors, missing IDs, same-ID rows, and obvious risk signals.
-8. Confirm the summary used bundled scoring, master selection, and merge execution path.
+   - Contacts: `HS_OBJECT_ID_1`, `HS_OBJECT_ID_2`, `FIRSTNAME_1`, `FIRSTNAME_2`, `EMAIL_1`, `EMAIL_2`
+   - Companies: `HS_OBJECT_ID_1`, `HS_OBJECT_ID_2`, `NAME_1`, `NAME_2`, `DOMAIN_1`, `DOMAIN_2`
+6. Run the full dry-run pipeline, not a trust-HubSpot import:
+   - score every CSV pair with the bundled scorer
+   - treat only scorer `AUTO_MERGE` as direct merge candidates
+   - route scorer `REVIEW` rows through fast CRM rules, web research, and Claude reasoning
+   - classify outcomes as `AI YES`, `AI NO`, or `AI UNSURE`
+7. Summarize row counts, parse errors, missing IDs, same-ID rows, scorer decisions, AI-review decisions, and true human-review residue.
+8. Confirm the summary used bundled scoring, master selection, and the AI/web review path.
 
 ## Commands
 
@@ -51,10 +55,12 @@ python3 review/merge_from_csv.py --companies <path-to-companies-csv> --limit 25
 
 Substitute `<path-to-...-csv>` with the user's actual file paths.
 
+Do not run `review/ai_review.py` as a second manual step for CSV backfills unless you used `--queue-only`. `review/merge_from_csv.py` now runs the full score plus AI/web review pipeline itself.
+
 ## Output
 
 - Export file paths.
 - Total duplicate rows.
-- Dry-run result counts.
-- Risk rows by number only, not raw contact/company details.
+- Dry-run result counts for scorer `AUTO_MERGE`, `AI YES`, `AI NO`, `AI UNSURE`, and `DISCARD`.
+- True human-review rows by number only, not raw contact/company details.
 - Next recommended action.
