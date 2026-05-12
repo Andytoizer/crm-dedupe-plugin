@@ -25,7 +25,7 @@ The repo includes both the plugin/command layer and the dedupe engine files:
 
 ## Claude Code Slash Commands
 
-Project commands live in `.claude/commands/`:
+Plugin commands live in `commands/` at the plugin root (loaded by Claude Code via `.claude-plugin/plugin.json`):
 
 - `/crm-dedupe-orchestrator`
 - `/contact-dedupe-agent`
