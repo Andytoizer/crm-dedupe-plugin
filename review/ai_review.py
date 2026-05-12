@@ -26,6 +26,7 @@ Usage:
 """
 import argparse
 import os
+import re
 import sys
 import requests
 import time
@@ -103,11 +104,58 @@ def _summary(object_type: str, r: dict) -> str:
 # Step 1: Fast CRM rules (no external calls)
 # ---------------------------------------------------------------------------
 
+def _normalize_linkedin_slug(url: str) -> str:
+    """Locale-aware LinkedIn slug extractor for the AI-review layer.
+
+    Stricter than the scorer's normalizer: also strips locale subdomains
+    (uk., de., fr., ca., etc.) and /pub/ paths, so
+    `uk.linkedin.com/in/foo` matches `linkedin.com/in/foo`.
+    """
+    if not url:
+        return ""
+    s = url.strip().lower()
+    s = re.sub(r"^https?://", "", s)
+    s = re.sub(r"^([a-z]{2,4}\.)?(www\.)?linkedin\.com/(in|pub)/", "", s)
+    return s.strip("/")
+
+
+def _linkedin_slugs(rec: dict, is_company: bool) -> set:
+    fields = (
+        ("linkedin_company_page", "lemlistprofileurl")
+        if is_company
+        else ("hs_linkedin_url", "lemlistlinkedinurl")
+    )
+    slugs = set()
+    for f in fields:
+        v = rec.get(f)
+        if v:
+            n = _normalize_linkedin_slug(v)
+            if n:
+                slugs.add(n)
+    return slugs
+
+
 def _fast_check(object_type: str, rec_a: dict, rec_b: dict):
     """
     Return (decision, reason) for high-confidence cases determinable from CRM
     data alone, or (None, None) to fall through to web research + Claude.
     """
+    # Rule 0: when both records have LinkedIn URLs, LinkedIn is decisive.
+    # Same slug (scorer may have missed it due to locale subdomain) → YES.
+    # Different slugs → NO (distinct people / companies).
+    is_company = object_type == "company"
+    slugs_a = _linkedin_slugs(rec_a, is_company)
+    slugs_b = _linkedin_slugs(rec_b, is_company)
+    if slugs_a and slugs_b:
+        overlap = slugs_a & slugs_b
+        if overlap:
+            return "YES", f"Same LinkedIn URL ({sorted(overlap)[0]})"
+        kind = "companies" if is_company else "people"
+        return "NO", (
+            f"Different LinkedIn URLs ({sorted(slugs_a)[0]} vs "
+            f"{sorted(slugs_b)[0]}) — separate {kind}"
+        )
+
     if object_type == "contact":
         name_a = f"{rec_a.get('firstname','')} {rec_a.get('lastname','')}".strip().lower()
         name_b = f"{rec_b.get('firstname','')} {rec_b.get('lastname','')}".strip().lower()
