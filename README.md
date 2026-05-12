@@ -32,20 +32,36 @@ Use $crm-dedupe-orchestrator to clean up my HubSpot duplicate backlog safely.
 
 ## Use With Claude Code
 
-Clone the repo and open it in Claude Code:
+Install the plugin globally so the commands work in any Claude Code session:
+
+```text
+/plugin marketplace add Andytoizer/crm-dedupe-plugin
+/plugin install crm-dedupe@crm-dedupe-plugin
+```
+
+You'll get these slash commands everywhere:
+
+- `/crm-dedupe-orchestrator` — main entry point
+- `/contact-dedupe-agent`, `/company-dedupe-agent`
+- `/hubspot-dedupe-backfill`, `/merge-safety-review`
+- `/daily-crm-hygiene`, `/verify-scoring-contract`
+
+Plus the six bundled skills the orchestrator routes through.
+
+You can also install from a local clone instead of GitHub:
 
 ```bash
 git clone https://github.com/Andytoizer/crm-dedupe-plugin
-cd crm-dedupe-plugin
 ```
-
-Claude Code will read `CLAUDE.md`. Start with the orchestrator command:
 
 ```text
-/crm-dedupe-orchestrator
+/plugin marketplace add /absolute/path/to/crm-dedupe-plugin
+/plugin install crm-dedupe@crm-dedupe-plugin
 ```
 
-The orchestrator calls the contact, company, backfill, merge safety, and daily hygiene workflows as needed, so most users should not need to pick a lower-level command directly.
+Or just clone and open the repo in Claude Code without installing — the project-local `.claude/commands/` and `CLAUDE.md` will work inside that directory only.
+
+The orchestrator routes contact, company, backfill, merge safety, and daily hygiene workflows for you, so most users should not need to pick a lower-level command directly.
 
 ## Quick Start
 
@@ -84,9 +100,11 @@ Use `$crm-dedupe-orchestrator` in Codex or `/crm-dedupe-orchestrator` in Claude 
 ## Repository Layout
 
 ```text
-.claude/commands/         Claude Code slash commands
+.claude-plugin/           Claude Code plugin + marketplace manifests
+.claude/commands/         Claude Code project-local slash commands
 .codex-plugin/            Codex plugin manifest
-skills/                   Codex skill instructions
+commands/                 Claude Code plugin slash commands
+skills/                   Skill instructions (shared between Codex and Claude Code)
 agents/                   bulk and incremental dedupe agents
 config/                   environment and field settings
 db/                       SQLite models and session setup
