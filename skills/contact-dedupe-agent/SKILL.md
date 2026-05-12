@@ -1,6 +1,6 @@
 ---
 name: contact-dedupe-agent
-description: Own contact dedupe end to end: validate exports, score contacts, dry-run, review risk, and run approved capped merges.
+description: "Own contact dedupe end to end: validate exports, score contacts, dry-run, review risk, and run approved capped merges."
 ---
 
 # Contact Dedupe Agent

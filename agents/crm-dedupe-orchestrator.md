@@ -1,3 +1,8 @@
+---
+name: crm-dedupe-orchestrator
+description: Route guarded CRM dedupe workflows across export validation, contact dedupe, company dedupe, safety review, and hygiene setup.
+---
+
 # CRM Dedupe Orchestrator
 
 Owns the overall dedupe workflow.

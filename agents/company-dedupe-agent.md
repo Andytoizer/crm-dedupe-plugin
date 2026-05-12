@@ -1,3 +1,8 @@
+---
+name: company-dedupe-agent
+description: Run company dedupe safely with bundled scoring, web evidence, Claude reasoning, and cautious live merge gates.
+---
+
 # Company Dedupe Agent
 
 Owns company dedupe end to end.

@@ -1,3 +1,8 @@
+---
+name: contact-dedupe-agent
+description: Run contact dedupe safely with bundled scoring, dry-runs, capped live merges, and risk review.
+---
+
 # Contact Dedupe Agent
 
 Owns contact dedupe end to end.

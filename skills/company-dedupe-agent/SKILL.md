@@ -1,6 +1,6 @@
 ---
 name: company-dedupe-agent
-description: Own company dedupe end to end: validate exports, score companies, add web evidence, route AI review, and run approved capped merges.
+description: "Own company dedupe end to end: validate exports, score companies, add web evidence, route AI review, and run approved capped merges."
 ---
 
 # Company Dedupe Agent

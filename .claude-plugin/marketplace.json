@@ -1,5 +1,6 @@
 {
   "name": "crm-dedupe-plugin",
+  "description": "Claude Code plugin marketplace for CRM dedupe workflows.",
   "owner": {
     "name": "Andy Toizer",
     "url": "https://agentoperator.substack.com/"
