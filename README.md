@@ -18,6 +18,7 @@ The original project owns the CRM integration, deterministic scoring, merge exec
 ## Repository Layout
 
 ```text
+.claude/commands/
 .codex-plugin/plugin.json
 skills/
 agents/
@@ -60,6 +61,28 @@ Add this repo to a Codex marketplace file with a local source path:
   "category": "Productivity"
 }
 ```
+
+## Use With Claude Code
+
+This repo includes a `CLAUDE.md` and project slash commands in `.claude/commands/`, so it can also be opened directly in Claude Code.
+
+After cloning this repo and the original CRM Dedupe Agent repo, set:
+
+```bash
+export CRM_DEDUPE_AGENT_REPO=/path/to/crm-dedupe-agent
+```
+
+Then use the project commands:
+
+- `/crm-dedupe-orchestrator`
+- `/contact-dedupe-agent`
+- `/company-dedupe-agent`
+- `/hubspot-dedupe-backfill`
+- `/merge-safety-review`
+- `/daily-crm-hygiene`
+- `/verify-scoring-contract`
+
+The slash commands mirror the Codex skills and keep Claude Code pointed at the original repo for scoring, AI review, master selection, and merge execution.
 
 ## Verify The Scoring Contract
 
