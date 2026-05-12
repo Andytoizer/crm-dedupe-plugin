@@ -1,5 +1,5 @@
 ---
-description: Run company dedupe end to end — validate exports, score companies, add web evidence, route AI review, and run approved capped merges.
+description: Run company dedupe end to end. Validates exports, scores companies, adds web evidence, routes AI review, and runs approved capped merges.
 allowed-tools: ["Skill", "Bash", "Read", "Glob", "Grep"]
 ---
 

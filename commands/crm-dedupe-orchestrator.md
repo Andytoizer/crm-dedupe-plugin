@@ -1,5 +1,5 @@
 ---
-description: Orchestrate a guarded CRM dedupe session — routes contact, company, backfill, merge safety, and daily hygiene workflows.
+description: Orchestrate a guarded CRM dedupe session. Routes contact, company, backfill, merge safety, and daily hygiene workflows.
 allowed-tools: ["Skill", "Bash", "Read", "Glob", "Grep"]
 ---
 

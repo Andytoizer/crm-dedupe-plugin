@@ -7,18 +7,30 @@ description: Validate HubSpot duplicate export files and prepare a one-off CRM d
 
 Use this when the operator has exported duplicate contacts or companies from HubSpot and wants to prepare a safe one-off cleanup.
 
+The plugin engine lives at `${CLAUDE_PLUGIN_ROOT}`.
+
+## First Response
+
+Acknowledge the request in one sentence. Then act. Never go silent.
+
 ## Inputs
 
 - HubSpot duplicate contact CSV.
 - HubSpot duplicate company CSV.
 - Optional HubSpot property list CSVs.
-- Repo path for the CRM Dedupe Agent.
+
+## Locating Exports
+
+1. Use the paths the user named, if any.
+2. Otherwise check `${CLAUDE_PLUGIN_ROOT}/demo_exports/`.
+3. Otherwise check `~/Downloads/` for recent HubSpot exports.
+4. **If not found, ASK the user** for absolute paths.
 
 ## Workflow
 
-1. Run commands from this repo root.
-2. Locate export files.
-3. Copy or reference them under `demo_exports/` with stable names:
+1. `cd ${CLAUDE_PLUGIN_ROOT}` before running commands.
+2. Locate export files (or confirm paths with user).
+3. Optionally copy or reference them under `${CLAUDE_PLUGIN_ROOT}/demo_exports/` with stable names:
    - `contacts_prechecked.csv`
    - `companies_prechecked.csv`
 4. Count rows without printing sensitive row data.
@@ -31,17 +43,15 @@ Use this when the operator has exported duplicate contacts or companies from Hub
 
 ## Commands
 
-Use the bundled scripts rather than duplicating logic:
-
 ```bash
-cd /path/to/crm-dedupe-plugin
-python3 review/merge_from_csv.py --contacts demo_exports/contacts_prechecked.csv --limit 25
-python3 review/merge_from_csv.py --companies demo_exports/companies_prechecked.csv --limit 25
+cd "${CLAUDE_PLUGIN_ROOT}"
+python3 review/merge_from_csv.py --contacts <path-to-contacts-csv> --limit 25
+python3 review/merge_from_csv.py --companies <path-to-companies-csv> --limit 25
 ```
 
-## Output
+Substitute `<path-to-...-csv>` with the user's actual file paths.
 
-Return:
+## Output
 
 - Export file paths.
 - Total duplicate rows.

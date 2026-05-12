@@ -5,15 +5,17 @@ description: Configure daily live CRM dedupe for high-confidence matches, with f
 
 # Daily CRM Hygiene
 
-Use this after the one-off backlog cleanup is understood.
+Use this after the one-off backlog cleanup is understood. Clears today's duplicate backlog once, then keeps it from returning via an incremental agent.
 
-## Goal
+The plugin engine lives at `${CLAUDE_PLUGIN_ROOT}`.
 
-Clear today's duplicate backlog once, then keep the backlog from returning.
+## First Response
+
+Acknowledge the request in one sentence. Then act. Never go silent.
 
 ## Cadence
 
-Default cadence: daily.
+Default: daily.
 
 The daily agent should:
 
@@ -23,7 +25,7 @@ The daily agent should:
 - Run AI review for ambiguous cases.
 - Send a Slack digest of review items.
 
-## Repo Touchpoints
+## Repo Touchpoints (inside `${CLAUDE_PLUGIN_ROOT}`)
 
 - `agents/incremental_dedup_agent.py`
 - `review/ai_review.py`
@@ -48,9 +50,7 @@ Daily hygiene must use the bundled scoring contract:
 - Company ambiguity should use web fallback, then Claude reasoning, then human review only for `UNSURE`.
 - Summaries should report merged, flagged, skipped, and errored counts.
 
-## Orchestrator Framing
-
-Say:
+## Framing for the User
 
 ```text
 First I clear the pile. Then I turn on the daily agent so the pile does not come back. High-confidence duplicates are fixed automatically, and messy cases go to review.

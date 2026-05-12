@@ -1,5 +1,5 @@
 ---
-description: Pre-flight gate before any live CRM merge write — checks dry-run status, caps, credentials, audit logging, and risk signals.
+description: Pre-flight gate before any live CRM merge write. Checks dry-run status, caps, credentials, audit logging, and risk signals.
 allowed-tools: ["Skill", "Bash", "Read", "Glob", "Grep"]
 ---
 

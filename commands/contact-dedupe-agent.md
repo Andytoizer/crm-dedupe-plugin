@@ -1,5 +1,5 @@
 ---
-description: Run contact dedupe end to end — validate exports, score contacts, dry-run, review risk, and run approved capped merges.
+description: Run contact dedupe end to end. Validates exports, scores contacts, dry-runs, reviews risk, and runs approved capped merges.
 allowed-tools: ["Skill", "Bash", "Read", "Glob", "Grep"]
 ---
 
