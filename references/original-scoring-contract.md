@@ -12,7 +12,7 @@ The plugin agents must preserve the CRM Dedupe scoring and routing contract bund
 
 ## Contact Scoring
 
-Use `pipeline.scorer.score_contacts()` from the CRM Dedupe Agent repo. Do not re-score contacts inside the plugin.
+Use the bundled `pipeline.scorer.score_contacts()` implementation. Do not create a second scoring path inside the plugin instructions.
 
 Priority:
 
@@ -26,7 +26,7 @@ Fuzzy contact matching requires both first and last names, requires first-name s
 
 ## Company Scoring
 
-Use `pipeline.scorer.score_companies()` from the CRM Dedupe Agent repo. Do not re-score companies inside the plugin.
+Use the bundled `pipeline.scorer.score_companies()` implementation. Do not create a second scoring path inside the plugin instructions.
 
 Priority:
 
@@ -52,7 +52,7 @@ Company web evidence buckets are not final outcomes. `SAME_HIGH` and `DIFFERENT_
 
 ## Master Selection
 
-Use `pipeline.scorer.select_master()` from the CRM Dedupe Agent repo. Master selection is engagement-weighted:
+Use the bundled `pipeline.scorer.select_master()` implementation. Master selection is engagement-weighted:
 
 - notes, sends, populated fields, email, LinkedIn, and phone add completeness points
 - older records get a small history bonus

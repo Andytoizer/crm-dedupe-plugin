@@ -14,7 +14,7 @@ This is an entity-owned agent. It owns company dedupe end to end, not just inves
 Company merges are riskier than contact merges. Different domains can mean subsidiaries, rebrands, acquired companies, old domains, or completely different companies.
 
 This skill must preserve the bundled workflow. It is not a replacement
-for AI review. The public repo's intended company path is:
+for AI review. The intended company path is:
 
 ```text
 score pair -> review queue -> fast CRM rules -> web research -> Claude reasoning -> YES / NO / UNSURE
@@ -27,7 +27,7 @@ approved live scope.
 ## Workflow
 
 1. Confirm company CSV exists.
-2. Change into the CRM Dedupe Agent repo before running commands.
+2. Change into this repo root before running commands.
 3. Validate expected company columns and count rows without printing private row data.
 4. Dry-run the capped batch to verify the export is parseable.
 5. Scan risk signals:

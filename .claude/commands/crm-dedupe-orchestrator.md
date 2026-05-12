@@ -14,7 +14,7 @@ Workflow:
 4. Route contact work through `skills/contact-dedupe-agent/SKILL.md`.
 5. Route company work through `skills/company-dedupe-agent/SKILL.md`.
 6. Use `skills/merge-safety-review/SKILL.md` before any live CRM write.
-7. Keep the original scoring contract intact. Do not invent plugin-local scoring.
+7. Keep the bundled scoring contract intact. Do not invent alternate scoring.
 8. Default to dry-run. Live commands require explicit user approval and an explicit cap.
 
 Output:

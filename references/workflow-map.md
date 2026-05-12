@@ -1,8 +1,8 @@
 # CRM Dedupe Workflow Map
 
-## V1: One Large Repo
+## Engine Layer
 
-The public repo contains all workflow pieces in one codebase:
+This standalone repo contains the engine pieces:
 
 - `review/merge_from_csv.py`: one-off HubSpot duplicate export backfill.
 - `pipeline/scorer.py`: deterministic contact and company scoring, including thresholds, fuzzy caps, and master record selection.
@@ -13,7 +13,7 @@ The public repo contains all workflow pieces in one codebase:
 - `agents/incremental_dedup_agent.py`: scheduled incremental cleanup.
 - `scheduler/register_schedule.py`: scheduled task definitions.
 
-## V2: Pluginized Orchestrator Workflow
+## Plugin Orchestrator Workflow
 
 The plugin splits the work by orchestration decision:
 
@@ -44,9 +44,9 @@ The human gives the intent. The orchestrator routes the work to the right specia
 
 ## Important Guardrail
 
-The plugin must not turn the original AI review loop into a manual-only company investigation step.
+The plugin must not turn the AI review loop into a manual-only company investigation step.
 
-Original repo behavior:
+Bundled engine behavior:
 
 ```text
 Score >= 0.95 -> auto-merge candidate

@@ -34,7 +34,7 @@ The default workflow is:
 2. Use pre-exported HubSpot duplicate CSVs.
 3. Route contact duplicates to `$contact-dedupe-agent`.
 4. Route company duplicates to `$company-dedupe-agent`.
-5. Dry-run capped batches from the CRM Dedupe Agent repo working directory.
+5. Dry-run capped batches from this repo root.
 6. Inspect risk signals and use `$merge-safety-review`.
 7. Approve only the safe live scope.
 8. Schedule daily high-confidence cleanup.
@@ -64,4 +64,4 @@ A handled dedupe session has:
 - Approved live scope clearly capped.
 - Company pairs separated into merge candidates, rejection/suppression candidates, and true human-review cases.
 - Daily hygiene cadence documented or scheduled.
-- The commands, output, or summary confirm the original scoring and review path were used.
+- The commands, output, or summary confirm the bundled scoring and review path were used.

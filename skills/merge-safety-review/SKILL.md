@@ -17,7 +17,7 @@ Use this before any live CRM write.
 - Risk rows are named by row number.
 - For contacts, different populated emails were reviewed.
 - For companies, different domains were investigated.
-- Original repo scoring was used: `>= 0.95` auto-merge, `0.70-0.95` review, fuzzy capped below auto-merge.
+- Bundled scoring was used: `>= 0.95` auto-merge, `0.70-0.95` review, fuzzy capped below auto-merge.
 - Master selection uses `pipeline.scorer.select_master()`.
 - HubSpot credentials exist but were not printed.
 - Audit logging is enabled through `execute_merge()`.
@@ -39,6 +39,6 @@ Stop before live mode if:
 - The cap is missing.
 - Company domains differ and have not been investigated.
 - Contact names differ.
-- The dry-run did not use the CRM Dedupe Agent repo's scoring and master-selection functions.
+- The dry-run did not use the bundled scoring and master-selection functions.
 - The operator has not approved live mode.
 - Credentials or environment are unclear.

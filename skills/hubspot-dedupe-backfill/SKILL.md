@@ -16,7 +16,7 @@ Use this when the operator has exported duplicate contacts or companies from Hub
 
 ## Workflow
 
-1. Locate the CRM Dedupe Agent repo and run commands from that repo root.
+1. Run commands from this repo root.
 2. Locate export files.
 3. Copy or reference them under `demo_exports/` with stable names:
    - `contacts_prechecked.csv`
@@ -31,7 +31,7 @@ Use this when the operator has exported duplicate contacts or companies from Hub
 
 ## Commands
 
-Use the repo's existing scripts rather than duplicating logic:
+Use the bundled scripts rather than duplicating logic:
 
 ```bash
 cd /path/to/crm-dedupe-plugin

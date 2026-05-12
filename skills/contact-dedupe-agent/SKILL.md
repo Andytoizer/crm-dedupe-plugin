@@ -5,7 +5,7 @@ description: Own contact dedupe end to end: validate exports, score contacts, dr
 
 # Contact Dedupe Agent
 
-Use this for contact duplicate cleanup from HubSpot exports or the CRM Dedupe Agent pipeline.
+Use this for contact duplicate cleanup from HubSpot exports or the bundled dedupe pipeline.
 
 This is an entity-owned agent. It owns contact dedupe end to end, not just one phase of the workflow.
 
@@ -18,7 +18,7 @@ This is an entity-owned agent. It owns contact dedupe end to end, not just one p
 ## Workflow
 
 1. Confirm the contact CSV exists.
-2. Change into the CRM Dedupe Agent repo before running commands.
+2. Change into this repo root before running commands.
 3. Validate expected contact columns and count rows without printing private row data.
 4. Score contacts with the bundled scorer.
 5. Run dry-run with the cap.
@@ -42,7 +42,7 @@ This is an entity-owned agent. It owns contact dedupe end to end, not just one p
 - Use `select_master()` through `review/merge_from_csv.py`; never choose master by CSV order.
 - Contact scoring must match the scoring contract: email exact `1.0`, Gmail dot-insensitive `0.97`, LinkedIn `0.98`, phone `0.92`, fuzzy name+company capped at `0.89`.
 - `AUTO_MERGE` contact pairs are candidates for capped merge after safety review.
-- `REVIEW` contact pairs go through the original AI review path, not a plugin-local judgment.
+- `REVIEW` contact pairs go through the bundled AI review path, not an ad hoc judgment.
 
 ## Commands
 
