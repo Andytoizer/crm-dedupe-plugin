@@ -2,6 +2,8 @@
 
 Codex plugin that turns the original [CRM Dedupe Agent](https://github.com/Andytoizer/crm-dedupe-agent) workflow into focused, reusable skills.
 
+Built by [Andy Toizer](https://www.linkedin.com/in/andy-toizer) — I write [Agent Operator](https://agentoperator.substack.com/), a newsletter about building real systems with coding agents from an operator's seat.
+
 The original project owns the CRM integration, deterministic scoring, merge execution, review queue, web enrichment, AI review, Slack digest, and scheduling code. This plugin is the orchestration layer around that repo: it gives Codex smaller, safer roles for running contact dedupe, company dedupe, merge safety review, and daily hygiene.
 
 ## Skills
@@ -91,4 +93,10 @@ OK: original scoring contract preserved
 
 ## License
 
-MIT
+MIT — use it, fork it, improve it. If you build something cool, let me know.
+
+## Links
+
+- [Original CRM Dedupe Agent](https://github.com/Andytoizer/crm-dedupe-agent)
+- [Andy Toizer on LinkedIn](https://www.linkedin.com/in/andy-toizer)
+- [Agent Operator](https://agentoperator.substack.com/)
