@@ -1,0 +1,14 @@
+{
+  "name": "crm-dedupe-plugin",
+  "owner": {
+    "name": "Andy Toizer",
+    "url": "https://agentoperator.substack.com/"
+  },
+  "plugins": [
+    {
+      "name": "crm-dedupe",
+      "source": ".",
+      "description": "Find, review, and safely merge duplicate CRM contacts and companies."
+    }
+  ]
+}
