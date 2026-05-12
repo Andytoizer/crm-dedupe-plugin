@@ -1,0 +1,44 @@
+{
+  "name": "crm-dedupe",
+  "version": "0.1.0",
+  "description": "Orchestrate a CRM dedupe workflow with focused Codex skills for safe backfills, contact and company dedupe, merge review, and daily hygiene.",
+  "author": {
+    "name": "Andy Toizer",
+    "url": "https://agentoperator.substack.com/"
+  },
+  "homepage": "https://github.com/Andytoizer/crm-dedupe-plugin",
+  "repository": "https://github.com/Andytoizer/crm-dedupe-plugin",
+  "license": "MIT",
+  "keywords": [
+    "crm",
+    "hubspot",
+    "dedupe",
+    "revops",
+    "agent-workflows"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "CRM Dedupe Orchestrator",
+    "shortDescription": "Run guarded CRM dedupe backfills and daily hygiene.",
+    "longDescription": "A pluginized version of the CRM Dedupe Agent workflow. Instead of one large repo context, it breaks dedupe operations into focused skills: orchestrating the workflow, validating HubSpot exports, running contact and company dedupe agents, reviewing merge safety, and scheduling daily high-confidence cleanup.",
+    "developerName": "Andy Toizer",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write",
+      "Research",
+      "Workflow"
+    ],
+    "websiteURL": "https://github.com/Andytoizer/crm-dedupe-plugin",
+    "privacyPolicyURL": "https://github.com/Andytoizer/crm-dedupe-plugin",
+    "termsOfServiceURL": "https://github.com/Andytoizer/crm-dedupe-plugin",
+    "defaultPrompt": [
+      "Use $crm-dedupe-orchestrator to clean up my HubSpot duplicate backlog safely.",
+      "Use $contact-dedupe-agent to dry-run the first 25 exported contact duplicates.",
+      "Use $daily-crm-hygiene after backlog cleanup to keep high-confidence dupes clear."
+    ],
+    "brandColor": "#2456F6",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg"
+  }
+}
