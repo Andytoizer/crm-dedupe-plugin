@@ -14,7 +14,7 @@ This started from real RevOps work at [Freckle.io](https://freckle.io/) and is p
 - Picks the surviving master record using engagement-weighted scoring.
 - Writes an audit log for merge decisions.
 - Sends or prepares review digests for cases that still need human eyes.
-- Gives Codex and Claude Code focused agents for contact dedupe, company dedupe, merge safety, and daily hygiene.
+- Gives Codex and Claude Code one orchestrator that routes the focused dedupe, safety, and hygiene steps for you.
 
 ## Install The Plugin
 
@@ -24,7 +24,7 @@ In Codex, install this plugin from the Git URL:
 https://github.com/Andytoizer/crm-dedupe-plugin
 ```
 
-Then try:
+Then start with the orchestrator:
 
 ```text
 Use $crm-dedupe-orchestrator to clean up my HubSpot duplicate backlog safely.
@@ -39,15 +39,13 @@ git clone https://github.com/Andytoizer/crm-dedupe-plugin
 cd crm-dedupe-plugin
 ```
 
-Claude Code will read `CLAUDE.md`. Project slash commands are available in `.claude/commands/`:
+Claude Code will read `CLAUDE.md`. Start with the orchestrator command:
 
-- `/crm-dedupe-orchestrator`
-- `/contact-dedupe-agent`
-- `/company-dedupe-agent`
-- `/hubspot-dedupe-backfill`
-- `/merge-safety-review`
-- `/daily-crm-hygiene`
-- `/verify-scoring-contract`
+```text
+/crm-dedupe-orchestrator
+```
+
+The orchestrator calls the contact, company, backfill, merge safety, and daily hygiene workflows as needed, so most users should not need to pick a lower-level command directly.
 
 ## Quick Start
 
@@ -79,14 +77,9 @@ Start small when going live:
 python3 agents/bulk_dedup_agent.py --live --max-merges 10
 ```
 
-## Skills
+## Main Entry Point
 
-- `$crm-dedupe-orchestrator`: routes the dedupe workflow.
-- `$contact-dedupe-agent`: owns contact dedupe end to end.
-- `$company-dedupe-agent`: owns company dedupe end to end.
-- `$hubspot-dedupe-backfill`: validates HubSpot duplicate exports before cleanup.
-- `$merge-safety-review`: blocks unsafe live merges.
-- `$daily-crm-hygiene`: configures ongoing high-confidence cleanup after backlog work is understood.
+Use `$crm-dedupe-orchestrator` in Codex or `/crm-dedupe-orchestrator` in Claude Code. It will validate exports, route contact and company work, run merge-safety checks before live writes, and set up daily hygiene only after the backlog workflow is understood.
 
 ## Repository Layout
 

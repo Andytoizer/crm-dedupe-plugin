@@ -5,26 +5,31 @@ Run this once to set up the always-on dedup schedule:
     python scheduler/register_schedule.py
 
 Tasks registered:
-  1. Incremental dedup — daily live cleanup
-  2. Slack review digest — daily at 9am PT
-  3. Weekly bulk re-scan — Sundays at 2am PT
+  1. Incremental dedup — daily cleanup, live only when DEDUP_LIVE=true
+  2. Slack review digest — daily at 9am Pacific
+  3. Weekly bulk re-scan — Sundays at 2am Pacific
 """
 import os
+import shlex
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_DIR_SHELL = shlex.quote(PROJECT_DIR)
 
 SCHEDULED_TASKS = [
     {
         "name": "hubspot-dedup-incremental",
-        "description": "Run daily live HubSpot dedup for high-confidence matches",
-        "schedule": "0 16 * * *",  # Daily at 8am PT / 9am PDT-ish depending on UTC handling
+        "description": "Run daily HubSpot dedup; live merges only when DEDUP_LIVE=true",
+        "schedule": "0 16 * * *",  # Daily at 8am Pacific standard time / 9am Pacific daylight time
         "prompt": (
             f"Run the HubSpot incremental deduplication agent. "
-            f"Execute: cd {PROJECT_DIR} && python agents/incremental_dedup_agent.py --live "
-            f"Auto-merge only high-confidence matches according to the repo thresholds, "
+            f"Execute: cd {PROJECT_DIR_SHELL} && "
+            f"if [ \"$DEDUP_LIVE\" = \"true\" ]; then python agents/incremental_dedup_agent.py --live; "
+            f"else python agents/incremental_dedup_agent.py; fi. "
+            f"Live mode is allowed only when DEDUP_LIVE=true; otherwise run as a dry-run. "
+            f"In live mode, auto-merge only high-confidence matches according to the repo thresholds, "
             f"queue fuzzy or uncertain matches for human review, and report a summary of "
             f"contacts and companies merged or flagged."
         ),
@@ -32,20 +37,20 @@ SCHEDULED_TASKS = [
     {
         "name": "hubspot-dedup-slack-digest",
         "description": "Send daily Slack digest of pending review queue items",
-        "schedule": "0 17 * * *",  # 9am PT = 17:00 UTC
+        "schedule": "0 17 * * *",  # 9am Pacific standard time / 10am Pacific daylight time
         "prompt": (
             f"Send the HubSpot dedup review digest to Slack. "
-            f"Execute: cd {PROJECT_DIR} && python review/slack_digest.py "
+            f"Execute: cd {PROJECT_DIR_SHELL} && python review/slack_digest.py. "
             f"Report how many items were included in the digest."
         ),
     },
     {
         "name": "hubspot-dedup-weekly-bulk",
         "description": "Weekly full re-scan of all HubSpot records to catch long-tail duplicates",
-        "schedule": "0 10 * * 0",  # Sundays 2am PT = 10:00 UTC
+        "schedule": "0 10 * * 0",  # Sundays 2am Pacific standard time / 3am Pacific daylight time
         "prompt": (
             f"Run the HubSpot bulk deduplication agent for a full re-scan. "
-            f"Execute: cd {PROJECT_DIR} && python agents/bulk_dedup_agent.py "
+            f"Execute: cd {PROJECT_DIR_SHELL} && python agents/bulk_dedup_agent.py. "
             f"Add --live flag only if DEDUP_LIVE=true is set in the environment. "
             f"Report totals for contacts and companies: merged, flagged, discarded."
         ),
