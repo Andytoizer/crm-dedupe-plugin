@@ -1,22 +1,28 @@
-Use this command for company dedupe end to end.
+---
+description: Run company dedupe end to end — validate exports, score companies, add web evidence, route AI review, and run approved capped merges.
+allowed-tools: ["Skill", "Bash", "Read", "Glob", "Grep"]
+---
 
-Arguments from the user:
+# Company Dedupe Agent
+
+**First action: invoke the `company-dedupe-agent` skill via the Skill tool** so the full SKILL.md instructions load. Pass the user's arguments to it.
+
+User arguments:
 
 ```text
 $ARGUMENTS
 ```
 
-Workflow:
+Workflow guidance (the skill will refine this):
 
-1. Read `skills/company-dedupe-agent/SKILL.md`.
-2. Work from this repo root.
-3. Confirm the company export path or use `demo_exports/companies_prechecked.csv` if the user staged it there.
-4. Validate expected columns without printing private company rows.
-5. Run dry-run commands before any live command.
-6. Use `pipeline.scorer.score_companies()` and `pipeline.web_enricher.check_same_company()`.
-7. Route medium, low, and unknown web buckets through the bundled AI review path before calling them human-review cases.
-8. Use `skills/merge-safety-review/SKILL.md` before live mode.
-9. Require explicit approval and an explicit cap for live mode.
+1. Engine code lives at `${CLAUDE_PLUGIN_ROOT}` — `cd` there before running any Python commands.
+2. Confirm the company export path. If the user staged a demo file, look at `${CLAUDE_PLUGIN_ROOT}/demo_exports/companies_prechecked.csv`.
+3. Validate expected columns without printing private company rows.
+4. Run dry-run commands before any live command.
+5. Use `pipeline.scorer.score_companies()` and `pipeline.web_enricher.check_same_company()`.
+6. Route medium, low, and unknown web buckets through the bundled AI review path before calling them human-review cases.
+7. Invoke the `merge-safety-review` skill before live mode.
+8. Require explicit approval and an explicit `--max-merges` cap for live mode.
 
 Preserve:
 

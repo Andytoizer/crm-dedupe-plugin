@@ -1,21 +1,27 @@
-Use this command for contact dedupe end to end.
+---
+description: Run contact dedupe end to end — validate exports, score contacts, dry-run, review risk, and run approved capped merges.
+allowed-tools: ["Skill", "Bash", "Read", "Glob", "Grep"]
+---
 
-Arguments from the user:
+# Contact Dedupe Agent
+
+**First action: invoke the `contact-dedupe-agent` skill via the Skill tool** so the full SKILL.md instructions load. Pass the user's arguments to it.
+
+User arguments:
 
 ```text
 $ARGUMENTS
 ```
 
-Workflow:
+Workflow guidance (the skill will refine this):
 
-1. Read `skills/contact-dedupe-agent/SKILL.md`.
-2. Work from this repo root.
-3. Confirm the contact export path or use `demo_exports/contacts_prechecked.csv` if the user staged it there.
-4. Validate expected columns without printing private contact rows.
-5. Run dry-run commands before any live command.
-6. Flag missing IDs, same-ID rows, different populated emails, and different names.
-7. Use `skills/merge-safety-review/SKILL.md` before live mode.
-8. Require explicit approval and an explicit cap for live mode.
+1. Engine code lives at `${CLAUDE_PLUGIN_ROOT}` — `cd` there before running any Python commands.
+2. Confirm the contact export path. If the user staged a demo file, look at `${CLAUDE_PLUGIN_ROOT}/demo_exports/contacts_prechecked.csv`.
+3. Validate expected columns without printing private contact rows.
+4. Run dry-run commands before any live command.
+5. Flag missing IDs, same-ID rows, different populated emails, and different names.
+6. Invoke the `merge-safety-review` skill before live mode.
+7. Require explicit approval and an explicit `--max-merges` cap for live mode.
 
 Preserve:
 

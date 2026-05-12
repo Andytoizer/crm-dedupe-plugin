@@ -1,21 +1,27 @@
-Use this command before any live CRM write.
+---
+description: Pre-flight gate before any live CRM merge write — checks dry-run status, caps, credentials, audit logging, and risk signals.
+allowed-tools: ["Skill", "Bash", "Read", "Glob", "Grep"]
+---
 
-Arguments from the user:
+# Merge Safety Review
+
+**First action: invoke the `merge-safety-review` skill via the Skill tool** so the full SKILL.md instructions load. Pass the user's arguments to it.
+
+User arguments:
 
 ```text
 $ARGUMENTS
 ```
 
-Workflow:
+Workflow guidance (the skill will refine this):
 
-1. Read `skills/merge-safety-review/SKILL.md`.
-2. Confirm a successful dry-run happened in the same session.
-3. Confirm the live command has an explicit cap.
-4. Confirm export path, IDs, same-ID checks, and risk rows.
-5. Confirm different contact emails/names or company domains were reviewed.
-6. Confirm bundled scoring and `select_master()` were used.
-7. Confirm credentials exist but do not print them.
-8. Stop if the user has not explicitly approved live mode.
+1. Confirm a successful dry-run happened in the same session.
+2. Confirm the live command has an explicit `--max-merges` cap.
+3. Confirm export path, IDs, same-ID checks, and risk rows.
+4. Confirm different contact emails/names or company domains were reviewed.
+5. Confirm bundled scoring and `select_master()` were used.
+6. Confirm credentials exist but never print them.
+7. Stop if the user has not explicitly approved live mode in this session.
 
 Output:
 

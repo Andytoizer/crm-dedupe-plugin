@@ -1,6 +1,11 @@
-Use this command to verify the plugin still preserves the original CRM Dedupe Agent scoring contract.
+---
+description: Verify the plugin still preserves the original CRM Dedupe Agent scoring contract.
+allowed-tools: ["Bash", "Read"]
+---
 
-Arguments from the user:
+# Verify Scoring Contract
+
+User arguments:
 
 ```text
 $ARGUMENTS
@@ -9,13 +14,13 @@ $ARGUMENTS
 Run:
 
 ```bash
-python3 scripts/verify_original_scoring_contract.py
+cd "${CLAUDE_PLUGIN_ROOT}" && python3 scripts/verify_original_scoring_contract.py
 ```
-
-Run from the repo root.
 
 Expected output:
 
 ```text
 OK: original scoring contract preserved
 ```
+
+If output differs, the scoring contract has drifted — stop and report the diff to the user.
