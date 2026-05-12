@@ -1,6 +1,6 @@
 {
   "name": "crm-dedupe",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Standalone CRM dedupe plugin with focused Codex skills for safe backfills, contact and company dedupe, merge review, and daily hygiene.",
   "author": {
     "name": "Andy Toizer",

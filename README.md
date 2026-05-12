@@ -59,7 +59,7 @@ git clone https://github.com/Andytoizer/crm-dedupe-plugin
 /plugin install crm-dedupe@crm-dedupe-plugin
 ```
 
-Or just clone and open the repo in Claude Code without installing — the project-local `.claude/commands/` and `CLAUDE.md` will work inside that directory only.
+Or just clone and open the repo in Claude Code without installing. The plugin commands live in `commands/`, and the Claude Code plugin metadata lives in `.claude-plugin/`.
 
 The orchestrator routes contact, company, backfill, merge safety, and daily hygiene workflows for you, so most users should not need to pick a lower-level command directly.
 
@@ -101,7 +101,6 @@ Use `$crm-dedupe-orchestrator` in Codex or `/crm-dedupe-orchestrator` in Claude 
 
 ```text
 .claude-plugin/           Claude Code plugin + marketplace manifests
-.claude/commands/         Claude Code project-local slash commands
 .codex-plugin/            Codex plugin manifest
 commands/                 Claude Code plugin slash commands
 skills/                   Skill instructions (shared between Codex and Claude Code)
